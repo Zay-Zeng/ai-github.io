@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智能环境下口述口述历史档案</title>
+    <!-- Element UI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            background-image: url(单词造句.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .navbar {
+            display: flex;
+            justify-content: flex-start; /* Align items to the start */
+            align-items: center;
+            padding: 1rem 2rem;
+            gap: 3rem; /* Adjust gap between items */
+            background-color: transparent;
+            backdrop-filter: none;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff; /* Fallback color */
+            background-image: linear-gradient(to right, #00BFFF, #8A2BE2); /* Blue to Purple gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .navbar-brand img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            position: relative;
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Vertically center items */
+        }
+        .nav-links a i {
+            margin-right: 5px; /* Space between icon and text */
+            font-size: 1.1rem; /* Adjust icon size */
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #8A2BE2; /* Purple underline */
+            transition: width 0.3s ease-in-out;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 0; /* Remove the underline for active state */
+        }
+        .nav-links a.active {
+            background: linear-gradient(90deg, #00008B, #0000CD); /* Darker blue gradient background */
+            border-radius: 5px;
+            padding: 0.5rem 1rem; /* Adjust padding for the button-like active state */
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .navbar-actions {
+            margin-left: auto; /* Push to the right */
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .navbar-actions .login-btn {
+            background: linear-gradient(90deg, #007bff, #0056b3); /* Blue gradient background */
+            color: #ffffff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px; /* More rounded corners */
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .hero-section {
+            position: relative;
+            margin-top: 62px; /* Adjust based on navbar height */
+            height: calc(100vh - 62px); /* Fill remaining viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center the content */
+            align-items: flex-start; /* Align items to the start (left) */
+            text-align: left; /* Align inline content to the left */
+            background-color: transparent; /* Changed to transparent */
+            overflow: hidden;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
+            margin-left: 2rem; /* Align with navbar's left padding */
+            color: #ffffff; /* Changed to white */
+            background-color: transparent; /* Removed background box */
+            border-radius: 0; /* Removed rounded corners */
+            box-shadow: none; /* Removed shadow */
+            text-align: left; /* Ensure internal content is left-aligned */
+        }
+        .hero-content .tag {
+            background-color: #0056b3; /* Darker blue */
+            color: #ffffff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            color: #ffffff; /* Changed to white */
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: #ffffff; /* Changed to white */
+        }
+        .hero-content .action-btn {
+            background: linear-gradient(90deg, #8A2BE2, #4169E1); /* Purple to blue gradient */
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 30px; /* More rounded corners */
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        .hero-content .action-btn:hover {
+            transform: translateY(-3px);
+        }
+        .download-btn {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #dc3545;
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 2;
+            transition: transform 0.2s ease-in-out;
+        }
+        .download-btn:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="#" class="navbar-brand">
+                <img src="单词造句 (1).png" alt="Logo">
+                <span>人工智能口述历史档案</span>
+            </a>
+            <div class="nav-links">
+                <a href="#" class="active"><i class="fas fa-home"></i> 首页</a>
+                <a href="#"><i class="fas fa-cogs"></i> 工作流中心</a>
+                <a href="#"><i class="fas fa-graduation-cap"></i> AI学堂</a>
+                <a href="#"><i class="fas fa-plug"></i> 插件中心</a>
+                <a href="#"><i class="fas fa-lightbulb"></i> 提示词</a>
+                <a href="#"><i class="fas fa-gem"></i> 订阅会员</a>
+                <a href="#"><i class="fas fa-user"></i> 个人中心</a>
+            </div>
+            <div class="navbar-actions">
+                <a href="#" class="login-btn">登录</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <span class="tag">成为AI时代超级个体</span>
+                <h1>利用AI技术，开启历史档案的新维度</h1>
+                <p>在AI时代，历史档案将迎来新的发展机遇。我们的平台利用先进的AI技术，帮助用户更高效地管理、检索和利用历史档案。</p>
+                <a href="#" class="action-btn">点击了解更多 <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div style="text-align: center; padding: 20px; background-color: #333; color: #fff;">郑州航院信息管理学院
+
+        </div>
+    </footer>
+    <!-- Element UI JavaScript -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+</body>
+</html>
